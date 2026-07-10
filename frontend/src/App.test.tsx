@@ -10,9 +10,9 @@ describe('App', () => {
     expect(
       screen.getByRole('heading', { name: 'UI Design Sanitizer' }),
     ).toBeInTheDocument()
-    expect(screen.getByLabelText('Raw prototype code')).toHaveValue(
-      expect.stringContaining('CheckoutCard'),
-    )
+    expect(
+      (screen.getByLabelText('Raw prototype code') as HTMLTextAreaElement).value,
+    ).toContain('CheckoutCard')
     expect(
       screen.getByRole('button', { name: 'Sanitize artifact' }),
     ).toBeEnabled()

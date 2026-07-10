@@ -36,6 +36,14 @@ export function Card() {
     assert any(issue.code == "EXECUTABLE_HANDLER" for issue in captured.value.issues)
 
 
+def test_allowlisted_callback_must_be_a_component_prop() -> None:
+    output = """import { useState } from "react";
+export function Card({ onBuy }: { onBuy: () => void }) {
+  return <button className="rounded" onClick={onBuy}>Buy</button>;
+}"""
+    validate_sanitized_artifact(RAW, output, "Card", ["buy action"])
+
+
 def test_new_copy_is_rejected() -> None:
     output = """export function Card() {
   return <button className="rounded">Purchase now</button>;

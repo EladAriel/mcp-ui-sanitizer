@@ -3,9 +3,9 @@ from collections.abc import Iterator
 from dataclasses import dataclass, field
 from enum import StrEnum
 
-from tree_sitter import Language, Node, Parser, Tree
 import tree_sitter_html
 import tree_sitter_typescript
+from tree_sitter import Language, Node, Parser, Tree
 
 from app.schemas import ErrorCode, ValidationIssue
 
@@ -144,6 +144,9 @@ def _validate_stateless(
 ) -> list[ValidationIssue]:
     issues: list[ValidationIssue] = []
     allow_callbacks = bool(allowed_features)
+    component_parameters = " ".join(
+        _text(node, source) for node in _walk(tree.root_node) if node.type == "formal_parameters"
+    )
 
     for node in _walk(tree.root_node):
         node_text = _text(node, source)
@@ -172,15 +175,27 @@ def _validate_stateless(
                 )
         elif node.type == "jsx_attribute":
             name = node.child_by_field_name("name")
+            if not name and node.named_children:
+                name = node.named_children[0]
             if not name:
                 continue
             attribute = _text(name, source)
             if not re.fullmatch(r"on[A-Z].*", attribute):
                 continue
             value = node.child_by_field_name("value")
+            if not value and len(node.named_children) > 1:
+                value = node.named_children[1]
             value_text = _text(value, source) if value else ""
+            reference = re.fullmatch(
+                r"\{\s*([A-Za-z_$][\w$]*)(?:\.[A-Za-z_$][\w$]*)?\s*\}",
+                value_text,
+            )
             is_callback_reference = bool(
-                re.fullmatch(r"\{\s*[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)?\s*\}", value_text)
+                reference
+                and re.search(
+                    rf"\b{re.escape(reference.group(1))}\b",
+                    component_parameters,
+                )
             )
             if not allow_callbacks or not is_callback_reference:
                 issues.append(

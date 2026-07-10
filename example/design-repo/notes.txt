@@ -1,0 +1,8 @@
+Designer scratch notes — not an HTML artifact.
+This file should not appear when the UI browses the design repo with html_only.
+
+Extraction reminder:
+- The HTML dump is a full storefront page with many features.
+- Only the region marked data-component="CheckoutCard" maps to production.
+- Use the production allowlist (Checkout action, input control) to keep that
+  subset and drop neighboring panels plus design-only controls inside the card.

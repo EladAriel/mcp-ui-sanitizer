@@ -4,17 +4,18 @@ import { describe, expect, it } from 'vitest'
 import App from './App'
 
 describe('App', () => {
-  it('renders the sanitizer input workflow', () => {
+  it('renders the repository workflow inputs', () => {
     render(<App />)
 
     expect(
       screen.getByRole('heading', { name: 'UI Design Sanitizer' }),
     ).toBeInTheDocument()
+    expect(screen.getByLabelText('Production repo path')).toBeInTheDocument()
+    expect(screen.getByLabelText('Design repo path')).toBeInTheDocument()
+    expect(screen.getByLabelText('Selected production file')).toBeInTheDocument()
+    expect(screen.getByLabelText('Selected design HTML')).toBeInTheDocument()
     expect(
-      (screen.getByLabelText('Raw prototype code') as HTMLTextAreaElement).value,
-    ).toContain('CheckoutCard')
-    expect(
-      screen.getByRole('button', { name: 'Sanitize artifact' }),
+      screen.getByRole('button', { name: 'Run repository workflow' }),
     ).toBeEnabled()
   })
 })

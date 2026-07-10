@@ -24,6 +24,19 @@ class StaticEngine:
         _request: CleanDesignArtifactInput,
         *,
         callbacks: list[Any] | None = None,
+        repair_instruction: str = "",
+    ) -> str:
+        return SAFE
+
+    async def merge_into_component(
+        self,
+        *,
+        production_jsx: str,
+        sanitized_html: str,
+        target_component_name: str,
+        allowed_features: list[str],
+        callbacks: list[Any] | None = None,
+        repair_instruction: str = "",
     ) -> str:
         return SAFE
 

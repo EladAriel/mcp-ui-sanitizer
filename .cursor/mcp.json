@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "ui-design-sanitizer": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "backend",
+        "run",
+        "ui-sanitizer-mcp"
+      ]
+    }
+  }
+}

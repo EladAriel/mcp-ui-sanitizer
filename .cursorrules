@@ -1,0 +1,20 @@
+# UI artifact integration gate
+
+Before editing application UI from generated or pasted HTML, JSX, or TSX:
+
+1. Inspect the target component and inventory its existing props, state, handlers,
+   data sources, routes, and product-supported interactions.
+2. Call the `clean_design_artifact` MCP tool with the untouched generated artifact,
+   the intended component name, and an explicit `allowed_features` list derived
+   from the target application. Never silently infer extra features.
+3. Stop if the tool fails. Never use partial, unvalidated, or original prototype
+   code as a fallback.
+4. Treat the returned source as presentation only. Reconnect it manually to the
+   target application's existing state, props, handlers, and data flow. Do not
+   replace or duplicate business logic.
+5. Review the resulting diff for new state, fake data, fabricated states, inline
+   event logic, routes, dependencies, and non-allowlisted controls.
+6. Run the target component's type checks and tests before proposing a merge.
+
+This rule guides agent behavior; repository branch protection and CI remain the
+enforcement boundary.

@@ -1,0 +1,17 @@
+---
+description: Sanitize generated UI artifacts before integrating presentation code
+alwaysApply: true
+---
+
+When generated or pasted HTML, JSX, or TSX will be integrated:
+
+- First inspect the target component's existing props, state, handlers, routes,
+  data flow, and supported product capabilities.
+- Invoke `clean_design_artifact` with the untouched artifact, intended component
+  name, and an explicit `allowed_features` list.
+- If sanitization fails, stop. Never substitute original or partial model output.
+- Treat sanitized code as presentation-only. Reconnect existing application logic
+  manually; never overwrite, duplicate, or fabricate business logic.
+- Reject additions of state, effects, mock data, fake statuses, inline event
+  logic, dependencies, routes, controls, or features outside the allowlist.
+- Review the diff and run relevant type checks and tests before proposing merge.

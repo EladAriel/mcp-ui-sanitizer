@@ -69,7 +69,7 @@ button {
 
 .topbar h1 {
   margin: 0;
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 650;
   letter-spacing: -0.01em;
 }
@@ -77,7 +77,7 @@ button {
 .topbar p {
   margin: 2px 0 0;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .connection {
@@ -90,7 +90,7 @@ button {
   border-radius: 999px;
   color: #aeb7c6;
   background: rgba(18, 22, 30, 0.7);
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .connection span {
@@ -122,7 +122,7 @@ button {
   align-items: center;
   gap: 6px;
   color: #a78bfa;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 750;
   letter-spacing: 0.17em;
 }
@@ -139,7 +139,7 @@ button {
   max-width: 580px;
   margin: auto;
   color: #919bad;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.65;
 }
 
@@ -162,6 +162,191 @@ button {
   border-bottom: 1px solid var(--border);
 }
 
+.path-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.path-row input {
+  flex: 1;
+}
+
+.browser-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 0 24px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.repo-browser {
+  min-height: 220px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #0b0e14;
+  overflow: hidden;
+}
+
+.repo-browser-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.repo-browser-header h3 {
+  margin: 0;
+  color: #e2e8f0;
+  font-size: 15px;
+}
+
+.repo-browser-header span {
+  color: #64748b;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.repo-browser ul {
+  margin: 0;
+  padding: 8px;
+  list-style: none;
+  max-height: 240px;
+  overflow: auto;
+}
+
+.repo-browser button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 8px;
+  color: #cbd5e1;
+  background: transparent;
+  text-align: left;
+  font-size: 15px;
+}
+
+.repo-browser button:hover,
+.repo-browser button.selected {
+  background: rgba(124, 92, 225, 0.14);
+}
+
+.repo-browser button span {
+  min-width: 28px;
+  color: #8b95a7;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.repo-browser-empty {
+  margin: 0;
+  padding: 18px 14px;
+  color: #687386;
+  font-size: 13px;
+}
+
+.trace-copy {
+  display: grid;
+  gap: 2px;
+}
+
+.trace-copy small {
+  color: #64748b;
+  font-size: 12px;
+}
+
+.explanation-panel {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(109, 40, 217, 0.08);
+}
+
+.explanation-panel h4 {
+  margin: 0 0 8px;
+  color: #c4b5fd;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.explanation-panel p {
+  margin: 0;
+  color: #cbd5e1;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.comparison-section {
+  border-bottom: 1px solid var(--border);
+}
+
+.comparison-section > h4 {
+  margin: 0;
+  padding: 16px 24px 0;
+  color: #e2e8f0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.comparison-section .preview-grid {
+  border-bottom: none;
+}
+
+.save-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 24px 12px;
+  padding: 11px 13px;
+  border-radius: 10px;
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  background: rgba(6, 78, 59, 0.35);
+  color: #a7f3d0;
+  font-size: 14px;
+}
+
+.preview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  background: #090b10;
+}
+
+.preview-frame {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: white;
+}
+
+.preview-label {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  color: #94a3b8;
+  background: #11141b;
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.preview-iframe {
+  display: block;
+  width: 100%;
+  height: 280px;
+  border: 0;
+  background: white;
+}
+
 label > span,
 .code-field > span {
   display: flex;
@@ -169,7 +354,7 @@ label > span,
   gap: 7px;
   margin-bottom: 9px;
   color: #cbd5e1;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 600;
 }
 
@@ -177,7 +362,7 @@ label small {
   display: block;
   margin-top: 7px;
   color: #687386;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 input {
@@ -189,7 +374,7 @@ input {
   color: #e2e8f0;
   background: #0b0e14;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 12px;
+  font-size: 15px;
   transition: border-color 150ms, box-shadow 150ms;
 }
 
@@ -207,7 +392,7 @@ textarea:focus {
 .code-field em {
   margin-left: auto;
   color: #64748b;
-  font-size: 10px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 450;
 }
@@ -222,7 +407,7 @@ textarea {
   outline: none;
   color: #cbd5e1;
   background: #090b10;
-  font: 12px/1.65 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font: 15px/1.65 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   tab-size: 2;
 }
 
@@ -238,7 +423,7 @@ textarea {
 .form-actions p {
   margin: 0;
   color: #6f7a8d;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .primary-button,
@@ -248,7 +433,7 @@ textarea {
   justify-content: center;
   gap: 8px;
   border-radius: 9px;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 650;
 }
 
@@ -290,13 +475,13 @@ textarea {
 .section-heading h3 {
   margin: 0;
   color: #e2e8f0;
-  font-size: 13px;
+  font-size: 16px;
 }
 
 .section-heading > span {
   margin-left: auto;
   color: #64748b;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .progress-card ol {
@@ -309,10 +494,11 @@ textarea {
 
 .progress-card li {
   display: grid;
-  grid-template-columns: 18px 145px 1fr;
-  align-items: center;
+  grid-template-columns: 18px 150px 1fr;
+  align-items: start;
+  gap: 8px;
   color: #788497;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .progress-card li svg {
@@ -329,7 +515,7 @@ textarea {
 
 .progress-card code {
   color: #a7b0bf;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .progress-card li p {
@@ -346,7 +532,7 @@ textarea {
   border-radius: 8px;
   color: #fda4af;
   background: rgba(159, 18, 57, 0.12);
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .results {
@@ -363,7 +549,7 @@ textarea {
 
 .result-header h3 {
   margin: 7px 0 0;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .result-actions {
@@ -394,12 +580,12 @@ textarea {
   color: #7c8798;
   text-align: center;
   background: #0b0d12;
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .diff-shell table {
   min-width: 850px;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .code-output {
@@ -411,7 +597,7 @@ textarea {
   padding: 13px 20px;
   color: #94a3b8;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 @media (max-width: 720px) {
@@ -431,6 +617,11 @@ textarea {
     grid-template-columns: 1fr;
   }
 
+  .browser-grid,
+  .preview-grid {
+    grid-template-columns: 1fr;
+  }
+
   .form-actions,
   .result-header {
     align-items: stretch;
@@ -443,6 +634,15 @@ textarea {
   }
 
   .progress-card li {
-    grid-template-columns: 18px 120px 1fr;
+    grid-template-columns: 18px 1fr;
+  }
+
+  .progress-card li code {
+    grid-column: 2;
+  }
+
+  .progress-card li .trace-copy {
+    grid-column: 1 / -1;
+    padding-left: 26px;
   }
 }

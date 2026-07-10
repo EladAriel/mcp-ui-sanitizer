@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Storefront design dump — multi-feature prototype</title>
+    <style>
+      :root {
+        --ink: #1a1a1a;
+        --muted: #5c5c5c;
+        --surface: #f7f3ec;
+        --accent: #0f6b4c;
+        --warn: #b45309;
+        --line: #d9d2c5;
+        --panel: rgba(255, 255, 255, 0.88);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Georgia, serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, #fff8e7, transparent 45%),
+          linear-gradient(160deg, #efe8dc, #f7f3ec 55%, #e8efe9);
+        min-height: 100vh;
+      }
+
+      .site-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.7);
+      }
+
+      .site-header .brand {
+        font-size: 1.25rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      .site-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        font-size: 0.95rem;
+      }
+
+      .site-nav a {
+        color: var(--ink);
+        text-decoration: none;
+      }
+
+      .site-nav a:hover {
+        color: var(--accent);
+      }
+
+      .layout {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 1.5rem 1.25rem 4rem;
+        display: grid;
+        gap: 1.25rem;
+      }
+
+      @media (min-width: 900px) {
+        .layout {
+          grid-template-columns: 1.4fr 1fr;
+          align-items: start;
+        }
+
+        .span-full {
+          grid-column: 1 / -1;
+        }
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        padding: 1.25rem 1.5rem;
+      }
+
+      .panel h2 {
+        margin: 0 0 0.75rem;
+        font-size: 1.15rem;
+      }
+
+      .panel p,
+      .panel li {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .promo-banner {
+        background: #fff;
+        border: 1px dashed var(--warn);
+        color: var(--warn);
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+      }
+
+      .feature-tag {
+        display: inline-block;
+        font-size: 0.7rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+        border: 1px solid var(--line);
+        padding: 0.15rem 0.45rem;
+        margin-bottom: 0.65rem;
+      }
+
+      .feature-tag.target {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 0.75rem;
+      }
+
+      .product-tile {
+        border: 1px solid var(--line);
+        background: #fff;
+        padding: 0.75rem;
+        font-size: 0.85rem;
+      }
+
+      .product-tile strong {
+        display: block;
+        margin-bottom: 0.25rem;
+        color: var(--ink);
+      }
+
+      .status-badge {
+        display: inline-block;
+        background: #dcfce7;
+        color: #166534;
+        padding: 0.2rem 0.55rem;
+        font-size: 0.75rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin-bottom: 0.75rem;
+      }
+
+      .checkout-card h1 {
+        margin: 0 0 0.35rem;
+        font-size: 1.85rem;
+        font-weight: 600;
+      }
+
+      .subtitle {
+        margin: 0 0 1.5rem;
+        color: var(--muted);
+      }
+
+      .line-item {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 0.5rem 1rem;
+        padding: 1rem 0;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        margin-bottom: 1.25rem;
+      }
+
+      .line-item .name {
+        font-weight: 600;
+      }
+
+      .line-item .meta {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .price {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--accent);
+      }
+
+      .fake-price-note {
+        grid-column: 1 / -1;
+        font-size: 0.8rem;
+        color: var(--warn);
+      }
+
+      .controls {
+        display: grid;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      label {
+        display: grid;
+        gap: 0.35rem;
+        font-size: 0.9rem;
+      }
+
+      input,
+      select,
+      textarea {
+        font: inherit;
+        padding: 0.55rem 0.65rem;
+        border: 1px solid var(--line);
+        background: #fff;
+      }
+
+      textarea {
+        min-height: 4.5rem;
+        resize: vertical;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        margin-bottom: 1rem;
+      }
+
+      button {
+        font: inherit;
+        padding: 0.65rem 1rem;
+        border: 1px solid var(--ink);
+        background: var(--ink);
+        color: #fff;
+        cursor: pointer;
+      }
+
+      button.secondary {
+        background: transparent;
+        color: var(--ink);
+      }
+
+      .help-row {
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+      }
+
+      .help-row a {
+        color: var(--accent);
+      }
+
+      .payment-methods {
+        display: grid;
+        gap: 0.5rem;
+      }
+
+      .payment-methods label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        grid-template-columns: none;
+      }
+
+      .tracking-list {
+        margin: 0;
+        padding-left: 1.1rem;
+      }
+
+      .site-footer {
+        margin-top: 0.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.85rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: space-between;
+      }
+
+      .extract-hint {
+        margin: 0;
+        padding: 0.85rem 1rem;
+        background: #ecfdf5;
+        border: 1px solid #a7f3d0;
+        color: #065f46;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+      Realistic design dump: one HTML file, many product features.
+      Only the section marked data-component="CheckoutCard" maps to the
+      production CheckoutCard.jsx target. Everything else is neighboring UI
+      the designer shipped in the same prototype page.
+    -->
+
+    <header class="site-header span-full">
+      <div class="brand">Northline Goods</div>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="/shop" onclick="alert('nav: shop')">Shop</a>
+        <a href="/lookbook" onclick="alert('nav: lookbook')">Lookbook</a>
+        <a href="/account" onclick="alert('nav: account')">Account</a>
+        <a href="/support" onclick="alert('nav: support')">Support</a>
+      </nav>
+    </header>
+
+    <div class="layout">
+      <p class="extract-hint span-full">
+        Multi-feature design dump. Extract presentation for
+        <strong>CheckoutCard</strong> only (quantity + Checkout). Neighboring
+        panels — recommendations, shipping, payment, tracking — are not part of
+        that production component.
+      </p>
+
+      <div class="promo-banner span-full" data-mock="flash-sale" data-feature="marketing">
+        Flash sale — designers only: free overnight shipping if you checkout in
+        the next 14 minutes. Fake urgency for the prototype.
+      </div>
+
+      <!-- Feature: product recommendations (NOT CheckoutCard) -->
+      <section class="panel" data-feature="ProductRecommendations">
+        <span class="feature-tag">Feature · recommendations</span>
+        <h2>You may also like</h2>
+        <div class="product-grid">
+          <article class="product-tile">
+            <strong>Wool beanie</strong>
+            <span>$28 · mock stock</span>
+            <button type="button" class="secondary" onclick="alert('add beanie')">
+              Quick add
+            </button>
+          </article>
+          <article class="product-tile">
+            <strong>Canvas pouch</strong>
+            <span>$22 · mock stock</span>
+            <button type="button" class="secondary" onclick="alert('add pouch')">
+              Quick add
+            </button>
+          </article>
+          <article class="product-tile">
+            <strong>Linen scarf</strong>
+            <span>$36 · mock stock</span>
+            <button type="button" class="secondary" onclick="alert('add scarf')">
+              Quick add
+            </button>
+          </article>
+        </div>
+      </section>
+
+      <!-- Feature: shipping address (NOT CheckoutCard) -->
+      <section class="panel" data-feature="ShippingAddressForm">
+        <span class="feature-tag">Feature · shipping</span>
+        <h2>Ship to</h2>
+        <form
+          class="controls"
+          action="/mock-shipping"
+          method="post"
+          onsubmit="alert('mock shipping save'); return false;"
+        >
+          <label>
+            Full name
+            <input type="text" name="full_name" value="Alex Designer" />
+          </label>
+          <label>
+            Address
+            <input type="text" name="address" value="12 Prototype Lane" />
+          </label>
+          <label>
+            City
+            <input type="text" name="city" value="Portland" />
+          </label>
+          <button type="submit" class="secondary">Save address</button>
+        </form>
+      </section>
+
+      <!--
+        TARGET COMPONENT REGION
+        data-component="CheckoutCard" — this is what production supports
+        (quantity input + Checkout action). Extra controls inside are
+        design-only and should be stripped by the allowlist.
+      -->
+      <section
+        class="panel checkout-card"
+        data-component="CheckoutCard"
+        data-feature="CheckoutCard"
+      >
+        <span class="feature-tag target">Target · CheckoutCard</span>
+        <span class="status-badge">Prototype · Ready to pay</span>
+        <h1>Order summary</h1>
+        <p class="subtitle">
+          Review your bag before paying. This card sits inside a larger page
+          dump that also includes shipping, payment, and recommendations.
+        </p>
+
+        <div class="line-item">
+          <div>
+            <div class="name">Canvas tote — charcoal</div>
+            <div class="meta">SKU TTE-CHAR-01 · warehouse mock inventory</div>
+          </div>
+          <div class="price">$48.00</div>
+          <p class="fake-price-note">
+            Mock price and inventory badge — strip or replace with real data
+            bindings in production.
+          </p>
+        </div>
+
+        <form
+          class="controls"
+          action="/mock-checkout"
+          method="post"
+          onsubmit="alert('mock submit'); return false;"
+        >
+          <label>
+            Quantity
+            <input
+              type="number"
+              name="quantity"
+              min="1"
+              max="99"
+              value="2"
+              onclick="console.log('qty focus')"
+            />
+          </label>
+
+          <label>
+            Size
+            <select name="size" onchange="console.log(this.value)">
+              <option value="s">Small</option>
+              <option value="m" selected>Medium</option>
+              <option value="l">Large</option>
+              <option value="xl">Extra large</option>
+            </select>
+          </label>
+
+          <label>
+            Gift note
+            <textarea
+              name="notes"
+              placeholder="Optional message for the packing slip"
+            >
+Happy birthday — wrap carefully!</textarea
+            >
+          </label>
+
+          <label>
+            Coupon code
+            <input
+              type="text"
+              name="coupon"
+              value="DESIGNER20"
+              autocomplete="off"
+            />
+          </label>
+
+          <div class="actions">
+            <button type="button" onclick="alert('pay now')">Checkout</button>
+            <button
+              type="button"
+              class="secondary"
+              onclick="alert('apply coupon DESIGNER20')"
+            >
+              Apply coupon
+            </button>
+            <button
+              type="button"
+              class="secondary"
+              onclick="alert('saved for later')"
+            >
+              Save for later
+            </button>
+          </div>
+
+          <div class="help-row">
+            Need sizing help?
+            <a href="/help/sizing" onclick="alert('open help')">Help</a>
+          </div>
+        </form>
+      </section>
+
+      <!-- Feature: payment methods (NOT CheckoutCard) -->
+      <section class="panel" data-feature="PaymentMethods">
+        <span class="feature-tag">Feature · payment</span>
+        <h2>Payment method</h2>
+        <div class="payment-methods">
+          <label>
+            <input
+              type="radio"
+              name="pay"
+              value="card"
+              checked
+              onchange="console.log('pay card')"
+            />
+            Credit card (mock)
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="pay"
+              value="wallet"
+              onchange="console.log('pay wallet')"
+            />
+            Digital wallet (mock)
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="pay"
+              value="invoice"
+              onchange="console.log('pay invoice')"
+            />
+            Net-30 invoice (mock)
+          </label>
+        </div>
+        <button
+          type="button"
+          class="secondary"
+          style="margin-top: 0.75rem"
+          onclick="alert('edit payment')"
+        >
+          Edit payment details
+        </button>
+      </section>
+
+      <!-- Feature: order tracking teaser (NOT CheckoutCard) -->
+      <section class="panel" data-feature="OrderTrackingTeaser">
+        <span class="feature-tag">Feature · tracking</span>
+        <h2>Recent shipments</h2>
+        <ol class="tracking-list">
+          <li>Order #1042 — In transit (mock)</li>
+          <li>Order #1038 — Delivered (mock)</li>
+        </ol>
+        <p>
+          <a href="/account/orders" onclick="alert('open orders')">View all orders</a>
+        </p>
+      </section>
+
+      <footer class="site-footer span-full" data-feature="SiteFooter">
+        <span>© Northline Goods — design prototype, not production chrome</span>
+        <span>
+          <a href="/privacy" onclick="alert('privacy')">Privacy</a>
+          ·
+          <a href="/terms" onclick="alert('terms')">Terms</a>
+        </span>
+      </footer>
+    </div>
+
+    <script>
+      // Prototype-only telemetry stub — must not survive sanitization.
+      window.__storefrontPrototype = {
+        page: "checkout-and-neighbors",
+        status: "ready_to_pay",
+        fakeTotal: 48,
+        coupon: "DESIGNER20",
+        features: [
+          "SiteHeader",
+          "ProductRecommendations",
+          "ShippingAddressForm",
+          "CheckoutCard",
+          "PaymentMethods",
+          "OrderTrackingTeaser",
+          "SiteFooter",
+        ],
+        checkoutCardOnly: ["Checkout", "quantity"],
+        designOnlyInsideCheckoutCard: [
+          "Apply coupon",
+          "Save for later",
+          "size",
+          "notes",
+          "help",
+        ],
+      };
+      console.log("storefront prototype loaded", window.__storefrontPrototype);
+    </script>
+  </body>
+</html>

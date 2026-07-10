@@ -42,8 +42,17 @@ uv --directory backend run ui-sanitizer-api
 The API is served at `http://127.0.0.1:8000`. Configure one provider key:
 
 - Default: `OPENAI_API_KEY` with `gpt-5.6-luna`.
-- Alternative: set `SANITIZER_LLM_PROVIDER=anthropic`,
+- Anthropic: set `SANITIZER_LLM_PROVIDER=anthropic`,
   `SANITIZER_LLM_MODEL=claude-haiku-4-5`, and `ANTHROPIC_API_KEY`.
+- OpenRouter: set `SANITIZER_LLM_PROVIDER=openrouter`,
+  `SANITIZER_LLM_MODEL=openai/gpt-4o-mini` (or another OpenRouter slug),
+  and `OPENROUTER_API_KEY`. Optional attribution headers use
+  `SANITIZER_OPENROUTER_HTTP_REFERER` and `SANITIZER_OPENROUTER_APP_TITLE`.
+
+For the repository workflow UI, set `SANITIZER_WORKSPACE_ROOTS` to one or more
+absolute local directories the API may read. Paths outside those roots are
+rejected. Checked-in mocks for manual testing live under [`example/`](example/)
+(see [`example/README.md`](example/README.md)).
 
 Cursor model credits do not fund backend API calls. The chosen provider account
 is billed directly.
@@ -85,6 +94,13 @@ failure it returns an MCP tool error and no partial output.
 - `GET /api/v1/sanitizations/{job_id}` returns status or the final result.
 - `GET /api/v1/sanitizations/{job_id}/events` streams named SSE progress,
   completion, and error events.
+- `GET /api/v1/repos/browse` lists files under an allowlisted local path.
+- `POST /api/v1/repos/inventory` inventories a production repository target.
+- `POST /api/v1/repos/save-component` writes updated JSX/TSX back to a production file.
+- `POST /api/v1/workflows` starts an HTML repository sanitization workflow
+  (returns sanitized HTML plus production JSX before/after for comparison).
+- `GET /api/v1/workflows/{job_id}` returns workflow status or the final result.
+- `GET /api/v1/workflows/{job_id}/events` streams structured execution-trace SSE.
 - `GET /health/live` and `GET /health/ready` expose process/configuration health.
 
 Jobs are in-memory with a TTL and the API is intentionally single-worker. Use a
@@ -95,11 +111,11 @@ authentication.
 ## Observability and privacy
 
 When `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` are present, every
-sanitization creates a Langfuse trace containing the raw prototype, final output,
-validation result, source transport, model metadata, latency, and model token
-usage. Source can contain proprietary code; configure Langfuse retention and
-access controls before enabling tracing. Tracing failure does not bypass policy
-validation or fail the request.
+sanitization creates a Langfuse trace with the source transport, model metadata,
+latency, validation result, and LangChain model token usage. Prototype and
+sanitized source are redacted by default; set `SANITIZER_LANGFUSE_CAPTURE_CODE=true`
+only after reviewing Langfuse retention and access controls. Tracing failure does
+not bypass policy validation or fail the request.
 
 ## Quality checks
 
